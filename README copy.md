@@ -1,5 +1,163 @@
-# ku_django_frntnd
- 
+# django-model-web-server
+
+## Setting up PostgreSQL
+
+```sh
+# locate pip
+which pip
+/home/user/my_env/bin/pip
+
+# list all pips in location learned above
+ls /home/user/my_env/bin/pip*
+
+# list all pips in user directory outside of virtual environment
+ls /usr/bin/pip*
+
+pip -V
+# pip 24.0 from /home/user/my_env/lib/python3.12/site-packages/pip (python 3.12)
+
+python3.11 -m pip install dotenv 
+
+# if not resolved try:
+# python3.11 -m pip install python-dotenv
+
+# check outdated wheel and setuptools and upgrade
+python3.11 -m pip uninstall psycopg2
+python3.11 -m pip list --outdated 
+python3.11 -m pip install --upgrade wheel
+python3.11 -m pip install --upgrade setuptools
+
+# important step before pip install
+sudo apt install libpq-dev
+
+# resolving error: command '/usr/bin/x86_64-linux-gnu-gcc' failed with exit code 1
+sudo apt-get install python3.11-dev
+
+python3.11 -m pip install psycopg2
+
+python3.11 -m pip list 
+python3.11 -m pip list | grep psy
+
+sudo apt install postgresql
+
+# Go to file
+code /etc/postgresql/16/main/postgresql.conf
+
+# Change the address to '*'
+# listen_addresses = 'localhost'
+# listen_addresses = '*'
+# Note: '*' will allow all available IP interfaces (IPv4 and IPv6), to only listen for IPv4 set 0.0.0.0 while '::' allows listening for all IPv6 addresses.
+
+sudo -u postgres psql template1
+ALTER USER postgres with encrypted password 'ku202425';
+# ctrl + z  to exit
+
+# edit file to use scram-sha-256 authentication with the postgres user
+# hostssl template1       postgres        192.168.122.1/24        scram-sha-256
+sudo echo 'hostssl template1       postgres        192.168.122.1/24        scram-sha-256' | sudo tee -a /etc/postgresql/16/main/pg_hba.conf
+
+sudo systemctl restart postgresql.service
+
+whereis python3.11
+# /usr/bin/python3.11
+
+sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.11 20
+
+sudo update-alternatives --config python
+# Press <enter> to keep the current choice[*], or type selection number: 0
+
+python -V
+
+source ~/.bashrc
+
+export DJANGO_SETTINGS_MODULE=ku_djangoo.settings
+```
+
+## Making migrations to database
+
+https://docs.djangoproject.com/en/5.1/intro/tutorial02/
+
+```sh
+python manage.py migrate
+```
+
+## Creating an admin or superuser
+
+```sh
+python manage.py createsuperuser
+
+# Username: admin
+# Email address: admin@example.com
+
+# Password: apassword
+# Password (again): apassword
+# Superuser created successfully.
+
+python manage.py runserver 8001
+```
+
+## Creating first login database record
+
+```sh
+python manage.py shell
+
+from polls.models import User
+
+User.objects.all()
+
+u = User(email="ace@email.com", password="apassword", username="ace")
+u.save()
+u.id
+u.email
+u.password
+u.username
+
+User.objects.all()
+
+# ctrl + z  to exit python shell
+```
+
+## Updating user database record
+
+```sh
+python manage.py shell
+
+from polls.models import User
+
+User.objects.all()
+
+u = User.objects.filter(username="ace")[0]
+u.password
+u.set_password("new password")
+u.password
+
+u.save()
+
+# ctrl + z  to exit python shell
+```
+
+## Creating first model database record
+
+```sh
+# python manage.py shell
+
+from polls.models import Net_Model, Login
+
+Net_Model.objects.all()
+
+l = Login.objects.get(pk=1)
+
+n = Net_Model(name="aceNet", model_type="aceNetType", owner_id=l, meta_description="aceNet meta description", model_url="example.com", description="ace-net description")
+
+n.save()
+
+n.name
+n.meta_description
+n.model_url
+
+Net_Model.objects.all()
+```
+
 ## Testing
 
 ```sh
@@ -11,6 +169,12 @@ Creating test database for alias 'default'...
 Got an error creating the test database: source database "template1" is being accessed by other users
 DETAIL:  There are 5 other sessions using the database.
 ```
+
+## Does Django close database connection?
+
+Django closes the connection once it exceeds the maximum age defined by CONN_MAX_AGE or when it isn't usable any longer.
+
+[Databases | Django documentation](https://docs.djangoproject.com/en/5.1/ref/databases/)
 
 ## Clearing Django cache
 
@@ -32,6 +196,7 @@ https://getbootstrap.com/docs/5.3/forms/input-group/#basic-example
 
 Template  
 https://docs.djangoproject.com/en/5.1/ref/templates/language/
+
 
 ## Deleting all data in database tables
 
