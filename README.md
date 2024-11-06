@@ -77,74 +77,6 @@ def main():
 ROOT_URLCONF = 'ku_djangoo.urls' 
 ```
 
-## Initialising a Github repository
-git config
-
-Install Git
-```sh
-sudo apt update
-sudo apt upgrade
-sudo apt install git
-```
-
-Initial user setup and make gitignore file 
-```sh
-touch .gitignore
-# https://www.toptal.com/developers/gitignore
-# Search: Django Python
-# Copy content and paste to gitignore file 
-
-git rm --cached FILENAME
-
-git config --global user.email a@example.com
-git config --global user.username ace
-
-touch ~/.gitignore
-code ~/.gitignore
-# Copy-paste the gitignore content and save 
-git config --global core.excludesFile ~/.gitignore
-```
-
-Initialise a Github Repository
-```sh
-git init
-git add .
-```
-
-Commit the repository
-```sh
-# 1st option
-git commit
-# write commit message
-ctrl+o
-ctrl+x
-
-# 2nd option
-git commit -m 'your commit message'
-```
-
-## Installing Github Desktop on Linux
-
-```sh
-wget -qO - https://apt.packages.shiftkey.dev/gpg.key | gpg --dearmor | sudo tee /usr/share/keyrings/shiftkey-packages.gpg > /dev/null
-sudo sh -c 'echo "deb [arch=amd64 signed-by=/usr/share/keyrings/shiftkey-packages.gpg] https://apt.packages.shiftkey.dev/ubuntu/ any main" > /etc/apt/sources.list.d/shiftkey-packages.list'
-
-sudo apt update && sudo apt install github-desktop
-
-github
-```
-
-## Excluding gitignore files 
-
-```sh
-git rm -rf --cached .
-git add .
-
-git commit
-# follow above guide "Commit the repository"
-# or use github desktop
-```
-
 ## Saving Python Packages and versions
 
 ```sh
@@ -181,23 +113,11 @@ Visible only on sm - for tablet-mobile top navigation bar
 
 Choose either `-inline` or `-block`.
 
-## Finding history of commands
-
-```sh
-ctrl + r
-
-# search for your past command 
-cd 
-# (reverse-i-search)`cd': cd ~/Documents/ku_django/
-
-# enter if the result command is what you are looking for
-```
-
 ## Finding python package version
 
 ```sh
 pip list | grep Dj
-# Django 4.2.11
+# Django 5.1.3
 
 pip --version
 # pip 24.0 from /usr/lib/python3/dist-packages/pip (python 3.12)
@@ -236,73 +156,8 @@ def aview(request):
 {% endfor %}
 ```
 
-## Saving an Uploaded Folder and Zip File to a Directory
+## Uploading folder structure directories along with the folder
 
-Current implementation is seen at `polls/views.py` at function `upload_folder(request)` under the line `for file in files:`.
-
-Below are helpful resources and options to help achieve or improve the implementation. 
-
-Option 1  
-`polls/models.py`  
-<https://stackoverflow.com/questions/65588269/how-can-i-create-an-upload-to-folder-that-is-named-a-field-belonging-to-the-mode>  
-```py
-class Upload(models.Model):
-    def user_directory_path(instance, filename):        
-        return 'user_{0}/{1}'.format(instance.user.id, filename) # uploaded to MEDIA_ROOT/user_<id>/<filename>
-```
-
-Option 2  
-<https://forum.djangoproject.com/t/how-to-zip-files/17197/1>  
-```py
-class Upload(models.Model):
-    uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
-    def save_folder(instance, filename):
-        upload_to = ''
-        ext = filename.split('.')[-1]
-        filename = '{}_{}.{}'.format('classA', instance.uuid, ext)
-        return os.path.join(upload_to, filename)
-    folder = models.FileField(upload_to=save_folder, null = True , blank = True )
-```
-    
-Option 3.1  
-Upload image instead of folder using `models` and `.Field(upload_to=)` with eg. `%Y/%m/%d`, `foldername`, `fn_upload`.  
-<https://bdvade.hashnode.dev/structuring-file-uploads-in-django>  
-```py
-from django.template.defaultfilters import slugify
-
-def category_upload(instance, filename):
-    return f"categories/{slugify(instance.category.name)}/{slugify(instance.name)}/{slugify(filename)}"
-
-class Article(models.Model):
-    name = models.CharField(max_length=30)
-    body = models.CharField(max_length=5000)
-    image = models.ImageField(upload_to=category_upload)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    # 
-    # categories/web-development/intro-to-web-development/cover.jpg
-```
-
-Option 3.2
-```py
-class Article(models.Model):
-    ...
-    image = models.ImageField(upload_to='%Y/%m/%d')
-    # 
-    # 2018/06/12/cover.jpg
-
-```
-
-Option 3.3  
-```py
-class Article(models.Model):
-    ...
-    image = models.ImageField(upload_to='article')
-    # 
-    # article/cover.jpg
-```
-
-Option 4
-Uploading folder structure directories along with the folder
 <https://diginaga.online/django/python/code/2019/04/10/directory_upload_django.html>
 
 ```html
@@ -326,10 +181,9 @@ Uploading folder structure directories along with the folder
 </script>
 ```
 
-This fourth method however, for some reason, the directories are not properly being received on the server side.  
-The root issue is unknown yet.
+This method however, for unknown reason, the directories are not properly being received on the server side.  
 
-The issue was found. 
+The found reason is: 
 
 1. There were two duplicate hidden input for storing directories.
 2. Second possible issue is that the location of the JavaScript was placed outside of a 'div' document container, whereas it should be placed right under the form document - under where the `</form>` ends. 
@@ -345,7 +199,7 @@ Uploading Zip file and save as is.
 <input type="text" id="directories" name="directories" hidden/>
 ```
 
-`/home/user/Documents/ku_django/polls/views.py`
+From backend `ku_django/polls/views.py`:
 ```py
 from django.core.files.storage import FileSystemStorage
 
@@ -354,29 +208,7 @@ def simple_view(request):
     FileSystemStorage(location="/tmp").save(in_memory_file_obj.name, in_memory_file_obj)
 ```
 
-This method is tested and working, but, the zip format would not allow users to view the dataset content.  
-Therefore unzipping this file and saving as a folder is necessary.
 The data type is not a File or ZipFile but DJango's `TemporaryUploadedFile` with methods from `UploadedFile`, read the documentation.
-
-## Choosing python version for debugging
-
-VS Code  
-
-`ctrl + shift + p`  
-`>Python: Select Interpreter`  
-Choose `Python 3.11.10 64-bit usr/bin/python`  
-Or Choose the python version that have been used for the project development.
-
-Download extension:  
-Python Debugger  
-v2024.12.0  
-Microsoft  
-
-`ctrl + shift + p`  
-Choose `Debug: Select and Start Debugging`  
-Choose `Python Debugger: DJango`  
-
-Add breakpoints to where you want to view variable content, instead of using print() function.  
 
 ## Installing Django 
 
@@ -538,3 +370,104 @@ or
 ```
 
 <https://stackoverflow.com/questions/4848611/rendering-a-template-variable-as-html>
+
+## Choosing python version for debugging
+
+VS Code  
+
+`ctrl + shift + p`  
+`>Python: Select Interpreter`  
+Choose `Python 3.11.10 64-bit usr/bin/python`  
+Or Choose the python version that have been used for the project development.
+
+Download extension:  
+Python Debugger  
+v2024.12.0  
+Microsoft  
+
+`ctrl + shift + p`  
+Choose `Debug: Select and Start Debugging`  
+Choose `Python Debugger: DJango`  
+
+Add breakpoints to where you want to view variable content, instead of using print() function.  
+
+## Finding history of commands
+
+```sh
+ctrl + r
+
+# search for your past command 
+cd 
+# (reverse-i-search)`cd': cd ~/Documents/ku_django/
+
+# enter if the result command is what you are looking for
+```
+## Initialising a Github repository
+
+git config
+
+Install Git
+```sh
+sudo apt update
+sudo apt upgrade
+sudo apt install git
+```
+
+Initial user setup and make gitignore file 
+```sh
+touch .gitignore
+# https://www.toptal.com/developers/gitignore
+# Search: Django Python
+# Copy content and paste to gitignore file 
+
+git rm --cached FILENAME
+
+git config --global user.email a@example.com
+git config --global user.username ace
+
+touch ~/.gitignore
+code ~/.gitignore
+# Copy-paste the gitignore content and save 
+git config --global core.excludesFile ~/.gitignore
+```
+
+Initialise a Github Repository
+```sh
+git init
+git add .
+```
+
+Commit the repository
+```sh
+# 1st option
+git commit
+# write commit message
+ctrl+o
+ctrl+x
+
+# 2nd option
+git commit -m 'your commit message'
+```
+
+## Installing Github Desktop on Linux
+
+```sh
+wget -qO - https://apt.packages.shiftkey.dev/gpg.key | gpg --dearmor | sudo tee /usr/share/keyrings/shiftkey-packages.gpg > /dev/null
+sudo sh -c 'echo "deb [arch=amd64 signed-by=/usr/share/keyrings/shiftkey-packages.gpg] https://apt.packages.shiftkey.dev/ubuntu/ any main" > /etc/apt/sources.list.d/shiftkey-packages.list'
+
+sudo apt update && sudo apt install github-desktop
+
+github
+```
+
+## Excluding gitignore files 
+
+```sh
+git rm -rf --cached .
+git add .
+
+git commit
+# follow above guide "Commit the repository"
+# or use github desktop
+```
+
