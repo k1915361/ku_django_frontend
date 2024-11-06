@@ -1,4 +1,4 @@
-{% extends "base_login_register_search.html" %}
+{% extends "base_guest.html" %}
 
 {% block content %}
 
@@ -17,7 +17,7 @@
     
 {{ please_login_message }}
 
-<form method="post" action="login/">
+<form method="post">
 {% csrf_token %}
 
 <div class="align-items-center">
@@ -26,7 +26,7 @@
         <label for="floatingUsername">Username</label>
     </div>
     <div class="form-floating mb-3">
-        <input type="password" name="password" class="form-control" id="InputPassword" minlength="8" required>
+        <input type="password" name="password" class="form-control" id="InputPassword" minlength="8" placeholder="" required>
         <label for="InputPassword">Password</label>
     </div>      
     <input type="submit" value="login" class="btn btn-primary">
@@ -35,7 +35,7 @@
 
 </form>
 {# Assumes you set up the password_reset view in your URLconf #}
-<p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+<p><a href="password_reset">Lost password?</a></p>
 
 </div>
 

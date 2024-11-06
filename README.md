@@ -452,7 +452,7 @@ source frontend_env/bin/activate
 deactivate
 ```
 
-## Optional - Making a beginner sample application
+## Making a beginner sample application
 
 ```sh
 # create an app
@@ -460,7 +460,7 @@ cd /home/user/Documents/ku_django_frontend/
 python manage.py startapp webapp
 ```
 
-## Optional - Making a beginner sample application
+## Optional - Making a beginner sample model data
 
 ```sh
 # Writing your first Django app, part 2
@@ -490,7 +490,7 @@ q.pub_date
 
 # Change values by changing the attributes, then calling save().
 q.question_text = "What's up?"
-q.save()
+# q.save() # database is in the backend - send this object to backend and save there.
 
 Question.objects.all()
 # <QuerySet [<Question: Question object (1)>]> 
@@ -504,3 +504,37 @@ Question.objects.all()
 # myenv is in the current directory of the terminal 
 rm -r myenv
 ```
+
+## Rendering HTML string as view
+
+If you don't want the HTML to be escaped, look at the safe filter and the autoescape tag:
+
+```python
+def bstr(byte_string, encoding=UTF8):
+    return byte_string.decode(encoding)    
+
+def get_request(request):
+    template_name = 'webapp/empty.html'
+    url = "http://127.0.0.1:8000/backend/"
+
+    response = requests.get(url)
+
+    context = { 'htmlstring': bstr(response.content)}
+    return render(request, template_name, context)
+```
+
+`webapp/empty.html`  
+
+```html
+{{ myhtml |safe }}
+```
+
+or  
+
+```html
+{% autoescape off %}
+    {{ myhtml }}
+{% endautoescape %}
+```
+
+<https://stackoverflow.com/questions/4848611/rendering-a-template-variable-as-html>

@@ -5,7 +5,7 @@
 <div class="container">
     <div class="row mt-5">
         <div class="col p-3 mb-5 bg-body-tertiary rounded border border-light-subtle">
-            <a href="/polls/public-model-list-view/" class="px-0 text-black align-middle link-dark link-underline-dark link-underline-opacity-25 link-underline-opacity-50-hover">
+            <a href="/webapp/public-model-list-view/" class="px-0 text-black align-middle link-dark link-underline-dark link-underline-opacity-25 link-underline-opacity-50-hover">
                 <p>List of Top Models</p>
             </a>
             <div class="" style="height: 200px; overflow:scroll;">
@@ -14,7 +14,7 @@
                         <ol>
                             {% for data in model_page_obj %}
                                 <li style="white-space: nowrap;">
-                                    <a class="fw-semibold" temphref="url 'polls:public-model-data-view/?page=' data.id" href="#">{{ data.name }}</a>
+                                    <a class="fw-semibold" temphref="url 'webapp:public-model-data-view/?page=' data.id" href="#">{{ data.name }}</a>
                                     <span>
                                         <span class="fw-medium"> {{ data.user }}</span> 
                                         <span class="fw-lighter overflow-x-scroll" style="width: 240px; overflow-x: scroll;">{{ data.updated }}</span>
@@ -26,13 +26,13 @@
                         <p>No model are available.</p>
                     {% endif %}
                     <ol>
-                        <li id="item-A"><a href="/polls/" class="px-0 text-black align-middle link-dark link-underline-dark link-underline-opacity-25 link-underline-opacity-50-hover">model A</a></li>
-                        <li id="item-B"><a href="/polls/" class="px-0 text-black align-middle link-dark link-underline-dark link-underline-opacity-25 link-underline-opacity-50-hover">model B</a></li>
-                        <li id="item-C"><a href="/polls/" class="px-0 text-black align-middle link-dark link-underline-dark link-underline-opacity-25 link-underline-opacity-50-hover">model C</a></li>
-                        <li id="item-D"><a href="/polls/" class="px-0 text-black align-middle link-dark link-underline-dark link-underline-opacity-25 link-underline-opacity-50-hover">model D</a></li>
-                        <li id="item-E"><a href="/polls/" class="px-0 text-black align-middle link-dark link-underline-dark link-underline-opacity-25 link-underline-opacity-50-hover">model E</a></li>
-                        <li id="item-F"><a href="/polls/" class="px-0 text-black align-middle link-dark link-underline-dark link-underline-opacity-25 link-underline-opacity-50-hover">model F</a></li>
-                        <li id="item-G"><a href="/polls/" class="px-0 text-black align-middle link-dark link-underline-dark link-underline-opacity-25 link-underline-opacity-50-hover">model G</a></li>
+                        <li id="item-A"><a href="/webapp/" class="px-0 text-black align-middle link-dark link-underline-dark link-underline-opacity-25 link-underline-opacity-50-hover">model A</a></li>
+                        <li id="item-B"><a href="/webapp/" class="px-0 text-black align-middle link-dark link-underline-dark link-underline-opacity-25 link-underline-opacity-50-hover">model B</a></li>
+                        <li id="item-C"><a href="/webapp/" class="px-0 text-black align-middle link-dark link-underline-dark link-underline-opacity-25 link-underline-opacity-50-hover">model C</a></li>
+                        <li id="item-D"><a href="/webapp/" class="px-0 text-black align-middle link-dark link-underline-dark link-underline-opacity-25 link-underline-opacity-50-hover">model D</a></li>
+                        <li id="item-E"><a href="/webapp/" class="px-0 text-black align-middle link-dark link-underline-dark link-underline-opacity-25 link-underline-opacity-50-hover">model E</a></li>
+                        <li id="item-F"><a href="/webapp/" class="px-0 text-black align-middle link-dark link-underline-dark link-underline-opacity-25 link-underline-opacity-50-hover">model F</a></li>
+                        <li id="item-G"><a href="/webapp/" class="px-0 text-black align-middle link-dark link-underline-dark link-underline-opacity-25 link-underline-opacity-50-hover">model G</a></li>
                     </ol>
                     <div class="pagination">
                         <span class="step-links">
@@ -55,7 +55,7 @@
             </div>
         </div>
         <div class="col p-3 mb-5 bg-body-tertiary rounded border border-light-subtle">
-            <a href="/polls/public-dataset-list-view/" class="px-0 text-black align-middle link-dark link-underline-dark link-underline-opacity-25 link-underline-opacity-50-hover">
+            <a href="/webapp/public-dataset-list-view/" class="px-0 text-black align-middle link-dark link-underline-dark link-underline-opacity-25 link-underline-opacity-50-hover">
                 <p>List of top datasets</p>
             </a>
             <div class="row bg-body-tertiary" style="height: 200px; overflow:scroll;">
@@ -65,7 +65,7 @@
                             <ol>
                                 {% for data in dataset_page_obj %}
                                     <li style="white-space: nowrap;">
-                                        <a class="fw-semibold" temphref="url 'polls:public-dataset-data-view/?page=' data.id" href="#">{{ data.name }}</a>
+                                        <a class="fw-semibold" temphref="url 'webapp:public-dataset-data-view/?page=' data.id" href="#">{{ data.name }}</a>
                                         <span>
                                             <span class="fw-medium"> {{ data.user }}</span> 
                                             <span class="fw-lighter overflow-x-scroll" style="width: 240px; overflow-x: scroll;">{{ data.updated }}</span>
@@ -77,12 +77,12 @@
                             <p>No Dataset are available.</p>
                         {% endif %}
                         <ol>
-                            <li id="item-A"><a href="/polls/" class="px-0 text-black align-middle link-dark link-underline-dark link-underline-opacity-25 link-underline-opacity-50-hover">dataset A</a></li>
-                            <li id="item-B"><a href="/polls/" class="px-0 text-black align-middle link-dark link-underline-dark link-underline-opacity-25 link-underline-opacity-50-hover">dataset B</a></li>
-                            <li id="item-C"><a href="/polls/" class="px-0 text-black align-middle link-dark link-underline-dark link-underline-opacity-25 link-underline-opacity-50-hover">dataset C</a></li>
-                            <li id="item-D"><a href="/polls/" class="px-0 text-black align-middle link-dark link-underline-dark link-underline-opacity-25 link-underline-opacity-50-hover">dataset D</a></li>
-                            <li id="item-E"><a href="/polls/" class="px-0 text-black align-middle link-dark link-underline-dark link-underline-opacity-25 link-underline-opacity-50-hover">dataset E</a></li>
-                            <li id="item-F"><a href="/polls/" class="px-0 text-black align-middle link-dark link-underline-dark link-underline-opacity-25 link-underline-opacity-50-hover">dataset F</a></li>
+                            <li id="item-A"><a href="/webapp/" class="px-0 text-black align-middle link-dark link-underline-dark link-underline-opacity-25 link-underline-opacity-50-hover">dataset A</a></li>
+                            <li id="item-B"><a href="/webapp/" class="px-0 text-black align-middle link-dark link-underline-dark link-underline-opacity-25 link-underline-opacity-50-hover">dataset B</a></li>
+                            <li id="item-C"><a href="/webapp/" class="px-0 text-black align-middle link-dark link-underline-dark link-underline-opacity-25 link-underline-opacity-50-hover">dataset C</a></li>
+                            <li id="item-D"><a href="/webapp/" class="px-0 text-black align-middle link-dark link-underline-dark link-underline-opacity-25 link-underline-opacity-50-hover">dataset D</a></li>
+                            <li id="item-E"><a href="/webapp/" class="px-0 text-black align-middle link-dark link-underline-dark link-underline-opacity-25 link-underline-opacity-50-hover">dataset E</a></li>
+                            <li id="item-F"><a href="/webapp/" class="px-0 text-black align-middle link-dark link-underline-dark link-underline-opacity-25 link-underline-opacity-50-hover">dataset F</a></li>
                         </ol>                        
                         <div class="pagination">
                             <span class="step-links">
@@ -108,10 +108,10 @@
         <div class="col p-3 mb-5 bg-body-tertiary rounded border border-light-subtle">
             <span>List of Top of Verified Energy Efficient Tools</span>
             <ol>
-                <li><a href="/polls/" class="px-0 text-black align-middle link-dark link-underline-dark link-underline-opacity-25 link-underline-opacity-50-hover">
+                <li><a href="/webapp/" class="px-0 text-black align-middle link-dark link-underline-dark link-underline-opacity-25 link-underline-opacity-50-hover">
                     tool A
                 </a></li>
-                <li><a href="/polls/" class="px-0 text-black align-middle link-dark link-underline-dark link-underline-opacity-25 link-underline-opacity-50-hover">
+                <li><a href="/webapp/" class="px-0 text-black align-middle link-dark link-underline-dark link-underline-opacity-25 link-underline-opacity-50-hover">
                     tool B
                 </a></li>
             </ol>
