@@ -292,6 +292,66 @@ cd /home/user/Documents/ku_django_frontend/
 python manage.py startapp webapp
 ```
 
+## Multiple levels of DJango template extend-block
+
+/home/user/Documents/ku_django_frntnd/static/css/website-screenshots/multiple level of html template extend-block_ Screenshot from 2024-11-07 15-27-10.png
+
+
+`lvl1.html`
+```html
+<p> level 1 </p>
+
+{% block level_2 %}
+{% endblock %}
+```
+
+`lvl2.html`
+```html
+{% extends "lvl1.html" %}
+<!DOCTYPE html>
+...
+<body>
+    <div id="content" class="col m-0 ps-0 pe-0">
+        {% block level_3 %}{% endblock %}
+    </div>
+</body>
+
+{% block level_2 %}
+{% endblock %}
+```
+
+`lvl3.html`
+```html
+{% extends "lvl2.html" %}
+
+{% block level_3 %}
+<div>
+    ...
+</div>
+{% endblock %}
+```
+
+## Creating responsive stacks of full-width UIs
+
+<https://getbootstrap.com/docs/5.3/components/buttons/#block-buttons>
+
+Use class `d-grid px-0` to use full-width and to remove side paddings. 
+
+Below example is a dropdown menu button, overiding its default style to unify style with other buttons.
+
+```html
+<div class="dropdown d-grid px-0">
+    <button class="btn btn-light dropdown-toggle border-light-subtle shadow-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Data Generation
+    </button>
+    <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="#">action A</a></li>
+        <li><a class="dropdown-item" href="#">action B</a></li>
+        <li><a class="dropdown-item" href="#">action C</a></li>
+    </ul>
+</div>
+```
+
 ## Optional - Making a beginner sample model data
 
 ```sh
