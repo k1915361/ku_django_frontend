@@ -352,7 +352,20 @@ Below example is a dropdown menu button, overiding its default style to unify st
 </div>
 ```
 
+## Setting Session Cookie Age
+
+`frontend_project/settings.py`
+```py
+SESSION_COOKIE_AGE = 1209600
+```
+
+`1209600` - 2 weeks in seconds - 60s * 60m * 24h * 7d * 2w - Django Default.  
+`172800` - 2 days in seconds - 60s * 60m * 24h * 2d.  
+
 ## Optional - Making a beginner sample model data
+
+Database will not be used for web server, this is necessary only in API server.  
+SQLite3 may be used for temporary data and less sensitive data.  
 
 ```sh
 # Writing your first Django app, part 2

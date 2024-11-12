@@ -4,10 +4,11 @@ from . import views
 
 app_name = 'webapp'
 urlpatterns = [
-    path("login/", views.login_request, name="login view"),
     path("", views.index, name="index"),
+    path("login/", views.login_request, name="login view"),
+    path("upload-dataset/", views.upload_dataset, name="upload dataset view"),
+    path("logout/", views.logout_view, name="logout"),
     # path("profile/", views.profile_view, name="profile"),
-    # path("logout/", views.logout_view, name="logout"),
     # path("login-retry-view/", views.login_retry_view, name="login retry view"),
     # path("login-view/login/", views.login_user, name="login"),
     # path("login-retry-view/login/", views.login_user, name="retry login"),
@@ -16,7 +17,6 @@ urlpatterns = [
     # path("register-view/register/", views.register, name="register"),
     # path("register-retry-view/register/", views.register, name="register retry "),
     # path("upload-model/", views.upload_model, name="upload model form"),
-    # path("upload-folder/", views.upload_folder, name="upload folder view"),
     # path("public-dataset-list-view/", views.public_dataset_list_view, name="public dataset list view"),
     # path("public-model-list-view/", views.public_model_list_view, name="public model list view"),
     # path("public-dataset-data-view:<int:pk>/", views.public_dataset_list_view, name="public-dataset-data-view"),
