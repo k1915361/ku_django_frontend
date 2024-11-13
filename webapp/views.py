@@ -46,30 +46,16 @@ def get_request(request):
 
 def create_in_memory_zip_with_files_and_directories(files: list, directories: dict) -> bytes:
     memory_file = BytesIO()
-    print('relative_file_path')
     with zipfile.ZipFile(memory_file, 'w') as zipf:
         for file in files:
             relative_file_path = directories.get(file.name)
-            print(relative_file_path)
 
             if not relative_file_path:
                 continue
-
-            relative_file_directory, _ = os.path.split(relative_file_path)
-
-            # for part in relative_file_directory.split(os.sep):
-            #     if part not in zipf.namelist():
-            #         zipf.writestr(part + os.sep, b'')
             
             zipf.writestr(relative_file_path, file.read())
-            # try:
-            #     for chunk in file.chunks():
-            #         zipf.write(relative_file_path, chunk)
-            # except Exception as e:
-            #     print(f"Error processing file {file.name}: {str(e)}")                
 
     memory_file.seek(0)
-    print('relative_file_path end')
     return memory_file.read()
 
 def login_request(request):
@@ -82,7 +68,6 @@ def login_request(request):
 
     username = request.POST["username"]
     password = request.POST["password"]
-    print(' --- login request() ', username, password)
 
     request.session._get_or_create_session_key()
     data = {
@@ -99,7 +84,7 @@ def login_request(request):
     print(' --- ', response)
     
     if response_data['is_authenticated'] == True:
-        request.session['token'] = "response_data['token']"
+        request.session['token'] = response_data['token']
         return redirect("/webapp/upload-dataset/")    
 
     return render(request, template_name, context)
@@ -128,10 +113,20 @@ def upload_dataset(request, template_name = "webapp/upload_dataset.html", contex
         return render(request, template_name, {"form": form} | context)
     
     form = UploadDatasetForm(request.POST, request.FILES)
-    ispublic = request.POST.get("is_public")
     
+    ispublic = request.POST.get("is_public")
     name = request.POST.get("name")
+    
     directories_str = request.POST.get("directories")
+
+    data = {
+        'name': name,
+        'ispublic': ispublic,
+    }
+    files = {}
+    headers = {
+        "Authorization": request.session['token'],
+    }
     
     if directories_str:
         directories_dict = ast.literal_eval(directories_str)
@@ -151,7 +146,15 @@ def upload_dataset(request, template_name = "webapp/upload_dataset.html", contex
     if form.is_valid() and len(dataset_files) != 0 and len(directories_dict) != 0:
         zip_bytes_file = create_in_memory_zip_with_files_and_directories(dataset_files, directories_dict)
         timestamp = now_Ymd_HMS()
+        files['zip_bytes_file'] = zip_bytes_file
         save_zip_bytes_file(zip_bytes_file)
+    
+    url = f"{API_URL}upload-dataset-api/"
+    response = requests.post(url, json=data, files=files, headers=headers)
+    
+    response_data = json.loads(response.text)
+
+    print(' - ', response_data)
 
     return render(request, template_name, {"form": form} | context)
 
