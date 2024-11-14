@@ -105,6 +105,9 @@ Hidden on all
 Hidden only on sm - for tablet and desktop side navigation bar  
 `d-none d-sm-inline`
 
+Hidden from md to xs - hide side navigation bar on tablet and smaller screens
+`d-none d-md-inline`
+
 Visible only on xs - for mobile top navigation bar  
 `d-block d-sm-none`
 
