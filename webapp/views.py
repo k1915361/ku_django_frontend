@@ -90,6 +90,7 @@ def login_request(request):
     return render(request, template_name, context)
 
 def unzip_and_save(zipfile_dir, timestamp):
+
     return
 
 def save_zip_file(zipfile, timestamp: str, root_dir: str = ROOT_TEMP):
@@ -125,7 +126,7 @@ def upload_dataset(request, template_name = "webapp/upload_dataset.html", contex
     }
     files = {}
     headers = {
-        "Authorization": request.session['token'],
+        "Authorization": "",
     }
     
     if directories_str:
@@ -134,7 +135,9 @@ def upload_dataset(request, template_name = "webapp/upload_dataset.html", contex
     zipfile_list = request.FILES.getlist('zipfile')
 
     if len(zipfile_list) != 0:
-        zipfile = zipfile_list[0] 
+        zipfile = zipfile_list[0] # <class 'django.core.files.uploadedfile.TemporaryUploadedFile'>
+
+        files['zipfile'] = zipfile
 
         timestamp = now_Ymd_HMS()
         zipfile_dir = save_zip_file(zipfile, timestamp)
